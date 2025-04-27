@@ -7,7 +7,6 @@ Une application de calculatrice scientifique développée avec Ionic Framework e
 *   Opérations de base (+, -, ×, ÷)
 *   Fonctions scientifiques (sin, cos, tan, log, √, ^, etc.)
 *   Mode paysage pour plus de fonctionnalités
-*   Thème clair/sombre
 *   Historique des calculs
 *   Prise en charge des parenthèses et priorités des opérations
 
@@ -17,7 +16,7 @@ Une application de calculatrice scientifique développée avec Ionic Framework e
 *   **Angular** (ou React/Vue selon votre choix)
 *   **Capacitor** (Build natif Android/iOS)
 *   **TypeScript** (Langage principal)
-*   **SCSS** (Styles personnalisés)
+*   **CSS** (Styles personnalisés)
 
 ## 📥 Installation
 
