@@ -1,0 +1,110 @@
+<ion-app>
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title class="ion-text-center">Calculatrice Scientifique Pro</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="toggleMode()">
+          <ion-icon [name]="isScientificMode ? 'calculator-outline' : 'flask-outline'"></ion-icon>
+        </ion-button>
+        <ion-button (click)="openHistoryModal()">
+          <ion-icon name="time-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <div class="calculator">
+      <div class="display-container">
+        <div class="history-display">{{ historyDisplay }}</div>
+        <div class="main-display">
+          <ion-input [(ngModel)]="display" readonly class="display-input"></ion-input>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <ion-grid>
+          <!-- Ligne d'informations -->
+          <ion-row class="info-row" *ngIf="memoryValue !== 0">
+            <ion-col>
+              <ion-badge color="medium">M: {{ memoryValue }}</ion-badge>
+            </ion-col>
+            <ion-col *ngIf="angle === 'DEG'" class="ion-text-end">
+              <ion-badge color="tertiary">DEG</ion-badge>
+            </ion-col>
+            <ion-col *ngIf="angle === 'RAD'" class="ion-text-end">
+              <ion-badge color="tertiary">RAD</ion-badge>
+            </ion-col>
+          </ion-row>
+
+          <!-- Fonctions scientifiques supplémentaires (visibles uniquement en mode scientifique) -->
+          <ng-container *ngIf="isScientificMode">
+            <ion-row>
+              <ion-col><ion-button expand="block" color="medium" (click)="toggleAngle()">{{ angle }}</ion-button></ion-col>
+              <ion-col><ion-button expand="block" color="medium" (click)="scientificFunction('log')">log</ion-button></ion-col>
+              <ion-col><ion-button expand="block" color="medium" (click)="scientificFunction('ln')">ln</ion-button></ion-col>
+              <ion-col><ion-button expand="block" color="medium" (click)="inputDigit('π')">π</ion-button></ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col><ion-button expand="block" color="medium" (click)="scientificFunction('e^x')">e^x</ion-button></ion-col>
+              <ion-col><ion-button expand="block" color="medium" (click)="scientificFunction('10^x')">10^x</ion-button></ion-col>
+              <ion-col><ion-button expand="block" color="medium" (click)="scientificFunction('x^2')">x²</ion-button></ion-col>
+              <ion-col><ion-button expand="block" color="medium" (click)="scientificFunction('x^3')">x³</ion-button></ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col><ion-button expand="block" color="medium" (click)="scientificFunction('sin')">sin</ion-button></ion-col>
+              <ion-col><ion-button expand="block" color="medium" (click)="scientificFunction('cos')">cos</ion-button></ion-col>
+              <ion-col><ion-button expand="block" color="medium" (click)="scientificFunction('tan')">tan</ion-button></ion-col>
+              <ion-col><ion-button expand="block" color="medium" (click)="openParentheses()">()</ion-button></ion-col>
+            </ion-row>
+          </ng-container>
+
+          <!-- Fonctions de mémoire et fonctions spéciales -->
+          <ion-row>
+            <ion-col><ion-button expand="block" color="danger" (click)="clear()">C</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="warning" (click)="backspace()">⌫</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="secondary" (click)="percentage()">%</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="tertiary" (click)="performOperation('/')">/</ion-button></ion-col>
+          </ion-row>
+
+          <!-- Chiffres et opérations de base -->
+          <ion-row>
+            <ion-col><ion-button expand="block" color="light" (click)="inputDigit('7')">7</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="light" (click)="inputDigit('8')">8</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="light" (click)="inputDigit('9')">9</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="tertiary" (click)="performOperation('*')">×</ion-button></ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col><ion-button expand="block" color="light" (click)="inputDigit('4')">4</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="light" (click)="inputDigit('5')">5</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="light" (click)="inputDigit('6')">6</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="tertiary" (click)="performOperation('-')">−</ion-button></ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col><ion-button expand="block" color="light" (click)="inputDigit('1')">1</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="light" (click)="inputDigit('2')">2</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="light" (click)="inputDigit('3')">3</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="tertiary" (click)="performOperation('+')">+</ion-button></ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col><ion-button expand="block" color="light" (click)="toggleSign()">+/-</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="light" (click)="inputDigit('0')">0</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="light" (click)="getDecimal()">.</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="success" (click)="calculate()">=</ion-button></ion-col>
+          </ion-row>
+
+          <!-- Fonctions de mémoire rapide (en bas) -->
+          <ion-row>
+            <ion-col><ion-button expand="block" color="medium" (click)="memoryAction('clear')">MC</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="medium" (click)="recallMemory()">MR</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="medium" (click)="memoryAction('add')">M+</ion-button></ion-col>
+            <ion-col><ion-button expand="block" color="medium" (click)="memoryAction('subtract')">M−</ion-button></ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </div>
+  </ion-content>
+</ion-app>

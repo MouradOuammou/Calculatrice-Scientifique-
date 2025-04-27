@@ -1,0 +1,132 @@
+/* Styles SCSS améliorés */
+.calculator {
+  max-width: 450px;
+  margin: 10px auto;
+  padding: 15px;
+  border-radius: 16px;
+  background: #f5f7fa;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.display-container {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #e6e9ef, #ffffff);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.08);
+  padding: 15px 10px;
+}
+
+.history-display {
+  font-size: 0.9em;
+  color: #666;
+  min-height: 20px;
+  text-align: right;
+  margin-bottom: 5px;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.main-display {
+  .display-input {
+    --padding-start: 10px;
+    --padding-end: 10px;
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+    text-align: right;
+    font-size: 2em;
+    font-weight: 500;
+    font-family: 'Roboto Mono', monospace;
+    color: #333;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+}
+
+.buttons {
+  ion-grid {
+    --ion-grid-padding: 0;
+  }
+
+  ion-row {
+    margin-bottom: 8px;
+  }
+
+  ion-button {
+    --border-radius: 12px;
+    height: 56px;
+    margin: 0;
+    font-size: 1.3em;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+
+    &:active {
+      transform: scale(0.95);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  ion-button[color="light"] {
+    --ion-color-base: #ffffff;
+    --ion-color-contrast: #333333;
+  }
+
+  ion-button[color="tertiary"] {
+    --ion-color-base: #5260ff;
+  }
+
+  ion-button[color="success"] {
+    --ion-color-base: #2dd36f;
+  }
+
+  ion-button[color="danger"] {
+    --ion-color-base: #eb445a;
+  }
+}
+
+.info-row {
+  margin-bottom: 10px;
+}
+
+ion-badge {
+  padding: 6px 10px;
+  border-radius: 12px;
+  font-weight: normal;
+}
+
+@media (prefers-color-scheme: dark) {
+  .calculator {
+    background: #1e1e1e;
+  }
+
+  .display-container {
+    background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+  }
+
+  .history-display {
+    color: #aaa;
+  }
+
+  .main-display .display-input {
+    color: #fff;
+  }
+
+  ion-button[color="light"] {
+    --ion-color-base: #333333;
+    --ion-color-contrast: #ffffff;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.calculator {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+ion-badge {
+  animation: fadeIn 0.5s ease-in-out;
+}
